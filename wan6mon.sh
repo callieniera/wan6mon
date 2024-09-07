@@ -3,6 +3,10 @@
 
 OUTPUT=$(ubus call network.interface.wan6 status)
 
+if [$OUTPUT = ""]; then
+	return
+fi
+
 json_init
 json_load "$OUTPUT"
 
@@ -19,7 +23,7 @@ if json_is_a "ipv6-prefix" array; then
 			logger -p 6 -t "wan6mon" "IPv6 Prefix Delegation looks good. Current ipv6-pd: $ipv6_addr/$ipv6_mask"
 			break
 		fi
-		idx=$(( idx + 1 ))
+		idx=$((idx + 1))
 	done
 	if [ $have_ipv6_pd -eq 0 ]; then
 		logger -p 4 -t "wan6mon" "IPv6 Prefix Delegation seems gone."
