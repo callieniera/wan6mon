@@ -25,13 +25,13 @@ if json_is_a "ipv6-prefix" array; then
 		logger -p 4 -t "wan6mon" "IPv6 Prefix Delegation seems gone."
 		logger -p 6 -t "wan6mon" "Stoping odhcpd."
 		/etc/init.d/odhcpd stop
-		sleep 3
+		sleep 1
 		logger -p 6 -t "wan6mon" "Stoping interface wan6."
 		ifdown wan6
 		sleep 3
 		logger -p 6 -t "wan6mon" "Starting odhcpd."
 		/etc/init.d/odhcpd start
-		sleep 3
+		sleep 1
 		logger -p 6 -t "wan6mon" "Starting interface wan6."
 		ifup wan6
 	fi
