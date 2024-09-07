@@ -7,7 +7,7 @@
     </p>
 </div>
 
-雖然 Netvigator 係2024年香港唯一一間提供 IPv6 俾家用網絡嘅 ISP ，但佢派嘅 IPv6-PD 係會隨時間流逝而直接消失嘅。呢段 Shell 代碼嘅目的係檢查`wan6`接口，當 `ipv6-prefix` 係一個列表（曾經有攞到過 IPv6-PD），但入面冇`address`嘅時候，會自動重啓`odhcpd`同`wan6`接口，強制更新 IPv6-PD。
+雖然 Netvigator 係2024年香港唯一一間提供 IPv6 俾家用網絡嘅 ISP ，但佢派嘅 IPv6-PD 係會隨時間流逝而直接消失嘅。呢段 Shell 代碼嘅目的係檢查 `wan6` 接口，當 `ipv6-prefix` 係一個列表（曾經有攞到過 IPv6-PD），但入面冇 `address` 嘅時候，會自動重啓 `odhcpd` 同 `wan6` 接口，強制更新 IPv6-PD。
 
 <ol>
     <li><a href="#依賴軟件包">依賴軟件包</a></li>
@@ -17,7 +17,7 @@
 
 ## 依賴軟件包
 
-以防萬一，請檢查是否已安裝`libubox`軟件包。
+以防萬一，請檢查是否已安裝 `libubox` 軟件包。
 ```shell
 opkg install libubox
 ```
@@ -30,13 +30,13 @@ opkg install libubox
 cd /opt
 ```
 
-如果有裝`git-http`，可以用`git clone`下載代碼。
+如果有裝 `git-http` ，可以用 `git clone` 下載代碼。
 
 ```shell
 git clone https://github.com/callieniera/wan6mon.git
 ```
 
-冇嘅話，可以用`vim` / `nano`或任何方法將`wan6mon.sh`複製去資料夾內。
+冇嘅話，可以用 `vim` / `nano` 或任何方法將 `wan6mon.sh` 複製去資料夾內。
 
 ```shell
 mkdir wan6mon
@@ -45,7 +45,7 @@ nano wan6mon.sh
 
 ### 運行 Shell 代碼
 
-當 IPv6-PD 消失嘅時候會自動觸發防火牆重新載入，因此可以喺`hotplug.d`入面加入自動檢查代碼：
+當 IPv6-PD 消失嘅時候會自動觸發防火牆重新載入，因此可以喺 `hotplug.d` 入面加入自動檢查代碼：
 
 ```shell
 cp /etc/hotplug.d/iface/20-firewall /etc/hotplug.d/iface/20-firewall.backup
@@ -56,7 +56,7 @@ echo "if [ \"\$ACTION\" = \"ifupdate\" ]; then
 fi" >> /etc/hotplug.d/iface/20-firewall
 ```
 
-又或者自己手動修改`/etc/hotplug.d/iface/20-firewall`，喺最後一行之後加入以下內容：
+又或者自己手動修改 `/etc/hotplug.d/iface/20-firewall` ，喺最後一行之後加入以下內容：
 
 ```shell
 if [ "$ACTION" = "ifupdate" ]; then
@@ -66,7 +66,7 @@ if [ "$ACTION" = "ifupdate" ]; then
 fi
 ```
 
-如果搵唔到`/etc/hotplug.d/iface/20-firewall`，就可能要用 cron 定期運行代碼：
+如果搵唔到 `/etc/hotplug.d/iface/20-firewall` ，就可能要用 cron 定期運行代碼：
 
 ```cron
 */15 * * * * /bin/sh /opt/wan6mon/wan6mon.sh
